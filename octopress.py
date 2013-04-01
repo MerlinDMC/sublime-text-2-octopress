@@ -12,13 +12,13 @@ class StopPreview(sublime_plugin.TextCommand):
         proc = subprocess.Popen(["ps aux | grep [r]ackup | awk '{print $2}' | xargs kill -9"], stdout=subprocess.PIPE, shell=True)
         proc = subprocess.Popen(["ps aux | grep [j]ekyl | awk '{print $2}' | xargs kill -9"], stdout=subprocess.PIPE, shell=True)
         proc = subprocess.Popen(["ps aux | grep [c]ompas | awk '{print $2}' | xargs kill -9"], stdout=subprocess.PIPE, shell=True)
-        print "Preview Stopped!"
+        print("Preview Stopped!")
 
 
 class OctopressCommand(sublime_plugin.WindowCommand):
 
     def exec_command(self, command):
-        print "octopress exec start."
+        print("octopress exec start.")
 
         self.output = ""
         self.load_config()
@@ -53,7 +53,7 @@ class OctopressCommand(sublime_plugin.WindowCommand):
 
         self.shell_executable = shell_exec
 
-        print self.rake_command
+        print(self.rake_command)
 
     def show_status_message(self, msg):
         sublime.status_message(msg)
@@ -82,7 +82,7 @@ class OctopressCommand(sublime_plugin.WindowCommand):
                 sublime.status_message("octopress exec successfully finished.")
 
                 if self.file:
-                    print "Open File : " + self.file
+                    print("Open File : " + self.file)
                     self.window.open_file(self.octopress_path + self.file)
             else:
                 sublime.status_message("")
@@ -95,7 +95,7 @@ class OctopressCommand(sublime_plugin.WindowCommand):
             data = os.read(self.proc.stdout.fileno(), 2 ** 15)
 
             if data != "":
-                print data
+                print(data)
 
                 if self.do_open_file and self.check_str and data.startswith(self.check_str):
                     self.file = data.split(os.linesep)[0].replace(self.check_str, "")
@@ -104,7 +104,7 @@ class OctopressCommand(sublime_plugin.WindowCommand):
             else:
                 self.proc.stdout.close()
 
-                print "octopress exec end."
+                print("octopress exec end.")
 
                 sublime.set_timeout(functools.partial(self.finish), 0)
                 break
@@ -167,7 +167,7 @@ class OctopressGenerateAndDeployCommand(OctopressCommand):
 
 class OctopressStartPreviewCommand(OctopressCommand):
     def run(self):
-        print "Starting Preview..."
+        print("Starting Preview...")
         self.file = ""
         self.DoubleSearch = 0
         self.check_str = "Compass is watching for changes."
